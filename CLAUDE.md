@@ -13,6 +13,7 @@ All sprites: trim transparent padding → fixed nearest-neighbor scale per group
 - **Gen7x group** (1,206 sprites): 7x scale — 1 outlier capped: Melmetal at 4x
 - **Gen8 group** (1,352 sprites): 5x scale — 4 outliers capped at 3x: Eternatus Eternamax, Eternatus, Kyogre, Rillaboom Gmax
 - **Gen9 group** (165 sprites): 5x scale — no outliers
+- **ZA group** (46 sprites): 7x scale — Pokémon Legends: Z-A base-game and Mega Dimension mega evolutions from toxicoke's 32×32 box-icon sheets; one default Floette and one default Tatsugiri only
 
 Pixel size is consistent within each group, preserving natural size differences between Pokémon. 5 oversized sprites are individually capped one step below their max fit to avoid lowering the scale for everyone else. Includes all forms (megas, regional variants, alternate forms), gender variants (`female/` subdir), and right-facing sprites (`right/` subdir, gen7x only).
 
@@ -41,8 +42,9 @@ Notion caches external icon URLs aggressively. To force refresh after pushing ne
 | `pokemon-gen7x/` | `msikma/pokesprite`    | `pokemon-gen7x/regular/` | 1,206   | 7x    | SM/USUM   |
 | `pokemon-gen8/`  | `msikma/pokesprite`    | `pokemon-gen8/regular/`  | 1,352   | 5x    | SwSh      |
 | `pokemon-gen9/`  | `bamq/pokemon-sprites` | `pokemon/regular/`       | 165     | 5x    | SV        |
+| `pokemon-za/`    | `toxicoke`             | DeviantArt box-icon sheets | 46      | 7x    | Legends Z-A megas |
 
-All source sprites are 68×56. Filenames mirror the source repos exactly.
+Gen7x/gen8/gen9 source sprites are 68×56. ZA source sprites are 32×32 cells extracted from toxicoke's published sheets. Filenames mirror the source repos where applicable and use slugged Mega names for ZA additions.
 
 Subdirectories: `female/` (gender-variant sprites), `right/` (right-facing, gen7x only).
 
