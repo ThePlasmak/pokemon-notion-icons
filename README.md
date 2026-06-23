@@ -6,9 +6,9 @@ This repo contains Pokémon box sprites that have been optimised for use as Noti
 
 - [msikma/pokesprite](https://github.com/msikma/pokesprite) for Gen 1 to 8 Pokémon
 
-- [bamq/pokemon-sprites](https://github.com/bamq/pokemon-sprites) for Gen 9 Pokémon
+- [bamq/pokemon-sprites](https://github.com/bamq/pokemon-sprites) for Gen 9 Pokémon (except for Pokémon Legends: Z-A's Mega Evolutions)
 
-- [toxicoke on DeviantArt](https://www.deviantart.com/toxicoke/gallery) for Pokémon Legends: Z-A Mega Evolution box icons:
+- [toxicoke on DeviantArt](https://www.deviantart.com/toxicoke/gallery) for Pokémon Legends: Z-A's Mega Evolutions:
   - [Pokémon Legends ZA Mega Box Icons](https://www.deviantart.com/toxicoke/art/Pokemon-Legends-ZA-Mega-Box-Icons-1267237951)
   - [Pokémon Legends ZA Mega Dimension Box Icons](https://www.deviantart.com/toxicoke/art/Pokemon-Legends-ZA-Mega-Dimension-Box-Icons-1292505456)
 
