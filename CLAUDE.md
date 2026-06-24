@@ -8,14 +8,24 @@ All Pokémon pages in Notion should have **big, consistent, centered** page icon
 
 ### Current Processing Pipeline
 
-All sprites: trim transparent padding → fixed nearest-neighbor scale per group → **centered by visual center-of-mass** on 280×280 transparent canvas → losslessly compressed with pingo (-s4).
+All sprites: trim transparent padding → **variable (compressed) nearest-neighbor scale per group** → **centered by visual center-of-mass** on 280×280 transparent canvas → losslessly compressed with pingo (-s4).
 
-- **Gen7x group** (1,206 sprites): 7x scale — 1 outlier capped: Melmetal at 4x
-- **Gen8 group** (1,352 sprites): 5x scale — 4 outliers capped at 3x: Eternatus Eternamax, Eternatus, Kyogre, Rillaboom Gmax
-- **Gen9 group** (165 sprites): 5x scale — no outliers
-- **ZA group** (46 sprites): 7x scale — Pokémon Legends: Z-A base-game and Mega Dimension mega evolutions from toxicoke's 32×32 box-icon sheets; one default Floette and one default Tatsugiri only
+**Variable scaling (current, gen7x/gen8/gen9):** A pure fixed per-group scale made tiny box sprites (Carbink, Goomy, Voltorb) far too small while big mons filled the whole tile — fills ranged ~0.25–1.00. We now compress that range with a gamma curve so small mons are boosted but stay proportionally smaller than big ones. For each sprite, recover the original-resolution sprite (downscale the existing icon by its known integer factor), then re-upscale so:
 
-Pixel size is consistent within each group, preserving natural size differences between Pokémon. 5 oversized sprites are individually capped one step below their max fit to avoid lowering the scale for everyone else. Includes all forms (megas, regional variants, alternate forms), gender variants (`female/` subdir), and right-facing sprites (`right/` subdir, gen7x only).
+```
+target_maxdim_fill = CEIL * (orig_maxdim / group_max_orig_maxdim) ** GAMMA
+CEIL  = 0.80   # matches the ZA Mega ceiling (e.g. Mega Delphox)
+GAMMA = 0.50   # lower = stronger boost to small mons; 1.0 = old linear behaviour
+```
+
+Result: every group now spans ~0.36–0.80 max-dim fill (was 0.25–1.00). Biggest mons land at the ZA ~0.80 ceiling; smallest are lifted off the floor; left-to-right size ordering is preserved. Reprocessing script: lossless original recovery via the documented integer factors below + the 5 capped outliers. NEAREST throughout to preserve pixel crispness. (`/tmp/process_icons.py` in the working session.)
+
+- **Gen7x group** (1,206 sprites): recovered at 7x — 1 outlier recovered at 4x: Melmetal
+- **Gen8 group** (1,352 sprites): recovered at 5x — 4 outliers recovered at 3x: Eternatus Eternamax, Eternatus, Kyogre, Rillaboom Gmax
+- **Gen9 group** (165 sprites): recovered at 5x — no outliers
+- **ZA group** (46 sprites): 7x fixed scale, **left unchanged** — already consistently sized (~0.57–0.80 fill) and used as the reference ceiling. Pokémon Legends: Z-A base-game and Mega Dimension mega evolutions from toxicoke's 32×32 box-icon sheets; one default Floette and one default Tatsugiri only.
+
+Includes all forms (megas, regional variants, alternate forms), gender variants (`female/` subdir), and right-facing sprites (`right/` subdir, gen7x only). Subdirs share their group's reference size so a female/right sprite matches its regular counterpart.
 
 **Center-of-mass centering:** Instead of centering the bounding box, we compute the centroid of all opaque pixels (visual center of gravity) and align that to the canvas center. This makes sprites look visually balanced — e.g., a Pokémon with a long tail won't appear off-center. The offset is clamped so no part of the sprite is ever cropped off the canvas edge.
 
@@ -29,7 +39,8 @@ Pixel size is consistent within each group, preserving natural size differences 
 6. **Per-group scaling (7x/5x) WITH trimming on 280×280, bounding-box centering** — sprites not visually centered (asymmetric features like tails/crests pulled the apparent center off).
 7. **Per-group scaling (7x/5x) WITH trimming on 280×280, center-of-mass centering** — visually centered and consistent but only for 76 team sprites.
 8. **Per-group scaling (5x/4x/5x) WITH trimming on 280×280, center-of-mass centering, ALL sprites** — too small. Scale factors lowered to accommodate largest sprites in each group.
-9. **Per-group scaling (7x/5x/5x) with 5 outliers individually capped, ALL sprites** — current approach. Keeps original scale factors, only Melmetal (4x), Eternatus/Eternatus Eternamax/Kyogre/Rillaboom Gmax (3x) are individually smaller.
+9. **Per-group scaling (7x/5x/5x) with 5 outliers individually capped, ALL sprites** — kept original scale factors; only Melmetal (4x), Eternatus/Eternatus Eternamax/Kyogre/Rillaboom Gmax (3x) individually smaller. Problem: tiny box sprites (Carbink, Goomy, Voltorb) were far too small relative to big mons (fills ~0.25–1.00).
+10. **Variable gamma-compressed scaling (current, gen7x/gen8/gen9)** — recover each original sprite, then re-upscale to `0.80 * (orig/group_max)^0.5`. Boosts small mons, caps big mons at the ZA ~0.80 ceiling, preserves size ordering. ZA group left unchanged as the reference.
 
 ### Cache Busting for Notion
 
