@@ -14,11 +14,11 @@ All sprites: trim transparent padding → **variable (compressed) nearest-neighb
 
 ```
 target_maxdim_fill = CEIL * (orig_maxdim / group_max_orig_maxdim) ** GAMMA
-CEIL  = 0.80   # matches the ZA Mega ceiling (e.g. Mega Delphox)
+CEIL  = 0.90   # slightly larger than the ZA Mega ceiling; Z-A itself stays unchanged
 GAMMA = 0.50   # lower = stronger boost to small mons; 1.0 = old linear behaviour
 ```
 
-Result: every group now spans ~0.36–0.80 max-dim fill (was 0.25–1.00). Biggest mons land at the ZA ~0.80 ceiling; smallest are lifted off the floor; left-to-right size ordering is preserved. Reprocessing script: lossless original recovery via the documented integer factors below + the 5 capped outliers. NEAREST throughout to preserve pixel crispness. (`/tmp/process_icons.py` in the working session.)
+Result: gen7x/gen8/gen9 now span ~0.41–0.90 max-dim fill (was 0.25–1.00 before normalization). Biggest mons are allowed slightly larger than the ZA reference ceiling; smallest are lifted off the floor; left-to-right size ordering is preserved. Reprocessing script: lossless original recovery via the documented integer factors below + the 5 capped outliers. NEAREST throughout to preserve pixel crispness. (`/tmp/apply_bigger_icons.py` in the working session.)
 
 - **Gen7x group** (1,206 sprites): recovered at 7x — 1 outlier recovered at 4x: Melmetal
 - **Gen8 group** (1,352 sprites): recovered at 5x — 4 outliers recovered at 3x: Eternatus Eternamax, Eternatus, Kyogre, Rillaboom Gmax
@@ -40,7 +40,7 @@ Includes all forms (megas, regional variants, alternate forms), gender variants 
 7. **Per-group scaling (7x/5x) WITH trimming on 280×280, center-of-mass centering** — visually centered and consistent but only for 76 team sprites.
 8. **Per-group scaling (5x/4x/5x) WITH trimming on 280×280, center-of-mass centering, ALL sprites** — too small. Scale factors lowered to accommodate largest sprites in each group.
 9. **Per-group scaling (7x/5x/5x) with 5 outliers individually capped, ALL sprites** — kept original scale factors; only Melmetal (4x), Eternatus/Eternatus Eternamax/Kyogre/Rillaboom Gmax (3x) individually smaller. Problem: tiny box sprites (Carbink, Goomy, Voltorb) were far too small relative to big mons (fills ~0.25–1.00).
-10. **Variable gamma-compressed scaling (current, gen7x/gen8/gen9)** — recover each original sprite, then re-upscale to `0.80 * (orig/group_max)^0.5`. Boosts small mons, caps big mons at the ZA ~0.80 ceiling, preserves size ordering. ZA group left unchanged as the reference.
+10. **Variable gamma-compressed scaling (current, gen7x/gen8/gen9)** — recover each original sprite, then re-upscale to `0.90 * (orig/group_max)^0.5`. Boosts small mons, allows bigger overall icons than the first 0.80 pass, caps the largest mons at ~0.90 fill, preserves size ordering. ZA group left unchanged as the reference style.
 
 ### Cache Busting for Notion
 

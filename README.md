@@ -2,7 +2,7 @@
 
 This repo contains Pokémon box sprites that have been optimised for use as Notion page icons—their transparent pixels were trimmed, then the images were scaled up and visually centered.
 
-Within each generation group the sprites are sized on a shared scale so that bigger Pokémon look bigger and smaller Pokémon look smaller, while keeping the size differences gentle enough that even the tiniest Pokémon are still large and legible as icons. The largest Pokémon top out at roughly the same size as the Pokémon Legends: Z-A Mega icons.
+Within each generation group the sprites are sized on a shared scale so that bigger Pokémon look bigger and smaller Pokémon look smaller, while keeping the size differences gentle enough that even the tiniest Pokémon are still large and legible as icons. Gen 1–9 sprites use a slightly larger ceiling than the Pokémon Legends: Z-A Mega icons, while Z-A itself is left unchanged.
 
 ## Image Sources
 
